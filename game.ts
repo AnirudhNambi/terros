@@ -10,6 +10,10 @@ export class Game {
         let currPos = String(curr[0])+curr[1];
         let finalPos = String(final[0])+final[1];
         let currPiece = this.board.state[currPos];
+        
+        // invalid turn 
+        if (currPiece != this.board.turn) return false
+
         console.log(currPiece);
         let pieceSplit = currPiece.split('_');
         let pieceType = pieceSplit[0];
@@ -19,6 +23,9 @@ export class Game {
         if(validStates.has(finalPos)){
             this.board.state[finalPos] = currPiece;
             delete this.board.state[currPos];
+            console.log(this.board.state)
+            if(currPiece == "w") this.board.turn = "b";
+            else this.board.turn = "w";
             return true;
         }
         return false;
@@ -205,6 +212,7 @@ export class Game {
 
 class createInitialBoard{
     pieces = {
+        // White Pieces
         "70": 'Rook_W',
         "71": 'Knight_W',
         "72": 'Bishop_W',
@@ -213,7 +221,6 @@ class createInitialBoard{
         "75": 'Bishop_W',
         "76": 'Knight_W',
         "77": 'Rook_W',
-        
         "60": 'Pawn_W',
         "61": 'Pawn_W',
         "62": 'Pawn_W',
@@ -232,7 +239,6 @@ class createInitialBoard{
         "05": 'Bishop_B',
         "06": 'Knight_B',
         "07": 'Rook_B',
-    
         "10": 'Pawn_B',
         "11": 'Pawn_B',
         "12": 'Pawn_B',
