@@ -62,14 +62,23 @@ export class Game {
             let directions = [[1,0],[0,1],[-1,0],[0,-1]];
             for(let i =0;i<directions.length;i++){
                 let dr = directions[i][0];
-                let dc = directions[i][0];
-                while(curr[0]+dr >= 0 && curr[0]+dr < 8 && curr[1]+dc < 8 && curr[1]+dc >= 0){
-                    console.log()
-                    let piece = this.board.state[String(curr[0]+dr)+(curr[1]+dc)]
-                    if(piece.includes('_W')){
+                let dc = directions[i][1];
+                let r = curr[0];
+                let c = curr[1];
+                while(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
+                    console.log(r+dr,c+dc);
+                    let piece = this.board.state[String(r+dr)+(c+dc)]
+                    console.log(piece);
+                    if(piece && piece.includes('_W')){
                         break;
                     }
-                    validStates.add(String(curr[0]+dr)+(curr[1]+dc))
+                    if(piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    validStates.add(String(r+dr)+(c+dc))
+                    r = r + dr;
+                    c = c+ dc;
                 }
             }
         }
