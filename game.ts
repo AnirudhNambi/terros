@@ -19,7 +19,6 @@ export class Game {
         if(validStates.has(finalPos)){
             this.board.state[finalPos] = currPiece;
             delete this.board.state[currPos];
-            console.log(this.board.state);
             return true;
         }
         return false;
@@ -30,16 +29,16 @@ export class Game {
         if(pieceType == "Pawn"){
             if(pieceColor == "B"){
                 if(curr[0] + 1 < 8 && this.board.state[String(curr[0]+1)+curr[1]] == undefined) 
-                validStates.add([curr[0]+1,curr[1]]);
+                validStates.add(String(curr[0]+1)+(curr[1]));
                 if(curr[0]+1 < 8 && curr[1]-1 >= 0){
                     let piece = this.board.state[String(curr[0]+1)+(curr[1]-1)];
-                    if(piece.includes('_W'))
-                    validStates.add([curr[0]+1,curr[1]-1])
+                    if(piece && piece.includes('_W'))
+                    validStates.add(String(curr[0]+1)+(curr[1]-1))
                 }
                 if(curr[0]+1 < 8 && curr[1]+1 <8){
                     let piece  = this.board.state[String(curr[0]+1)+(curr[1]+1)];
-                    if(piece.includes('_W'))
-                    validStates.add([curr[0]+1,curr[1]+1])
+                    if(piece && piece.includes('_W'))
+                    validStates.add(String(curr[0]+1)+(curr[1]+1))
                 }
             }
             if(pieceColor == "W"){
@@ -66,19 +65,80 @@ export class Game {
                 let r = curr[0];
                 let c = curr[1];
                 while(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
-                    console.log(r+dr,c+dc);
                     let piece = this.board.state[String(r+dr)+(c+dc)]
-                    console.log(piece);
-                    if(piece && piece.includes('_W')){
+                    if(pieceColor == "B" && piece && piece.includes('_B')){
                         break;
                     }
-                    if(piece && piece.includes('_B')){
+                    if(pieceColor == "W" && piece && piece.includes('_W')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    if(pieceColor == "B" && piece && piece.includes('_W')){
                         validStates.add(String(r+dr)+(c+dc));
                         break;
                     }
                     validStates.add(String(r+dr)+(c+dc))
                     r = r + dr;
                     c = c+ dc;
+                }
+            }
+        }
+        else if(pieceType == "Bishop"){
+            let directions = [[1,1],[-1,1],[-1,-1],[1,-1]];
+            for(let i =0;i<directions.length;i++){
+                let dr = directions[i][0];
+                let dc = directions[i][1];
+                let r = curr[0];
+                let c = curr[1];
+                while(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
+                    let piece = this.board.state[String(r+dr)+(c+dc)];
+                    if(pieceColor == "B" && piece && piece.includes('_B')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_W')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    if(pieceColor == "B" && piece && piece.includes('_W')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    validStates.add(String(r+dr)+(c+dc));
+                    r = r + dr;
+                    c = c + dc;
+                }
+            }
+        }
+        else if(pieceType == "King"){
+            let directions = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,1],[-1,-1],[1,-1]];
+            for(let i =0;i<directions.length;i++){
+                let dr = directions[i][0];
+                let dc = directions[i][1];
+                let r = curr[0];
+                let c = curr[1];
+                if(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
+                    let piece = this.board.state[String(r+dr)+(c+dc)];
+                    if(pieceColor == "B" && piece && piece.includes('_B')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_W')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    if(pieceColor == "B" && piece && piece.includes('_W')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    validStates.add(String(r+dr)+(c+dc));
                 }
             }
         }
