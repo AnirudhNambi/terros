@@ -142,9 +142,39 @@ export class Game {
                 }
             }
         }
-        return validStates;
+        else if(pieceType == "Queen"){
+            let directions = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,1],[-1,-1],[1,-1]];
+            for(let i =0;i<directions.length;i++){
+                let dr = directions[i][0];
+                let dc = directions[i][1];
+                let r = curr[0];
+                let c = curr[1];
+                while(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
+                    let piece = this.board.state[String(r+dr)+(c+dc)];
+                    if(pieceColor == "B" && piece && piece.includes('_B')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_W')){
+                        break;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    if(pieceColor == "B" && piece && piece.includes('_W')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        break;
+                    }
+                    validStates.add(String(r+dr)+(c+dc));
+                    r = r + dr;
+                    c = c + dc;
+                }
+        }
     }
+    return validStates;
 }
+}
+
 
 class createInitialBoard{
     pieces = {
