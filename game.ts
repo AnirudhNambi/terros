@@ -125,18 +125,18 @@ export class Game {
                 if(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
                     let piece = this.board.state[String(r+dr)+(c+dc)];
                     if(pieceColor == "B" && piece && piece.includes('_B')){
-                        break;
+                        continue;
                     }
                     if(pieceColor == "W" && piece && piece.includes('_W')){
-                        break;
+                        continue;
                     }
                     if(pieceColor == "W" && piece && piece.includes('_B')){
                         validStates.add(String(r+dr)+(c+dc));
-                        break;
+                        continue;
                     }
                     if(pieceColor == "B" && piece && piece.includes('_W')){
                         validStates.add(String(r+dr)+(c+dc));
-                        break;
+                        continue;
                     }
                     validStates.add(String(r+dr)+(c+dc));
                 }
@@ -170,6 +170,33 @@ export class Game {
                     c = c + dc;
                 }
         }
+    }
+    else if(pieceType == "Knight"){
+        let directions = [[-1,2],[-1,-2],[-2,1],[-2,-1],[1,2],[1,-2],[2,1],[2,-1]];
+            for(let i =0;i<directions.length;i++){
+                let dr = directions[i][0];
+                let dc = directions[i][1];
+                let r = curr[0];
+                let c = curr[1];
+                if(r+dr >= 0 && r+dr < 8 && c+dc < 8 && c+dc >= 0){
+                    let piece = this.board.state[String(r+dr)+(c+dc)];
+                    if(pieceColor == "B" && piece && piece.includes('_B')){
+                        continue;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_W')){
+                        continue;
+                    }
+                    if(pieceColor == "W" && piece && piece.includes('_B')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        continue;
+                    }
+                    if(pieceColor == "B" && piece && piece.includes('_W')){
+                        validStates.add(String(r+dr)+(c+dc));
+                        continue;
+                    }
+                    validStates.add(String(r+dr)+(c+dc));
+                }
+            }
     }
     return validStates;
 }
